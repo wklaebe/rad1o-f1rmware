@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python3
 import sys
 import binascii
 import struct
@@ -40,9 +40,9 @@ elif len(remainder) > 2:
 filename = remainder[0]
 
 if len(remainder) == 1:
-    outfilename = re.sub('\.[^.]*$','.l3d',filename)
+    outfilename = re.sub('\\.[^.]*$','.l3d',filename)
     outfilename = outdir + "/" + re.sub('.*/','',outfilename)
-    
+
 else:
     outfilename = remainder[1]
 
@@ -57,7 +57,7 @@ with open(filename) as fp:
     # first use argument if available, then use delay from file if available, then fallback to default
     delay = delay_arg if delay_arg else int(delay_file) if delay_file else default_delay
 
-    lines = len(filter(lambda x: x.strip(), contents.splitlines()))
+    lines = len([x for x in contents.splitlines() if x.strip()])
 
     if lines > 50:
         sys.stderr.write('ERROR: failed to convert %s\n' % filename)
@@ -69,6 +69,6 @@ with open(filename) as fp:
 
     contents = contents.replace(chr(10), '')
     contents = contents.replace(' ', '')
-    with open(outfilename, 'w') as fpW:
+    with open(outfilename, 'wb') as fpW:
         fpW.write(struct.pack('>H', delay))
         fpW.write(binascii.unhexlify(contents))
