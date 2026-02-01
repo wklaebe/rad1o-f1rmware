@@ -50,47 +50,48 @@ static void refill_cpld_buffer_fs(void) {
 
 //# MENU cpld
 void cpld_flash(){
-	SETUPgout(EN_1V8);
-	ON(EN_1V8);
-	delayNop(1000000); /* wait until cpld boot */
-	cpu_clock_set(204);
+    SETUPgout(EN_1V8);
+    ON(EN_1V8);
+    delayNop(1000000); /* wait until cpld boot */
+    cpu_clock_set(204);
 
-	lcdPrintln("Program CPLD");
-	bytes=0;
-	lcdPrint(IntToStr(bytes,5,F_LONG)); lcdPrint(" bytes..."); lcdNl();
+    lcdPrintln("Program CPLD");
+    bytes=0;
+    lcdPrint(IntToStr(bytes,5,F_LONG)); lcdPrint(" bytes..."); lcdNl();
 
-	#define WAIT_LOOP_DELAY (6000000)
-	#define ALL_LEDS  (PIN_LED1|PIN_LED2|PIN_LED3)
-	int i;
-	int error;
+    #define WAIT_LOOP_DELAY (6000000)
+    #define ALL_LEDS  (PIN_LED1|PIN_LED2|PIN_LED3)
+    int i;
+    int error;
 
-	refill_cpld_buffer_fs();
+    refill_cpld_buffer_fs();
 
-	error = cpld_jtag_program(sizeof(cpld_xsvf_buffer),
-				  cpld_xsvf_buffer,
-				  refill_cpld_buffer_fs);
-	if(error){
-	    lcdPrintln("Programming failed!");
-	    lcdPrintln(IntToStr(error,5,0));
-	    lcdDisplay();
-	    /* LED3 (Red) steady on error */
-	    ON(LED4);
-	    while (1);
-	};
+    error = cpld_jtag_program(sizeof(cpld_xsvf_buffer),
+                  cpld_xsvf_buffer,
+                  refill_cpld_buffer_fs);
+    if(error){
+        lcdPrintln("Programming failed!");
+        lcdPrintln(IntToStr(error,5,0));
+        lcdDisplay();
+        /* LED3 (Red) steady on error */
+        ON(LED4);
+        while (1);
+    };
 
-	lcdPrintln("Success.");
-	lcdDisplay();
-	OFF(EN_1V8);
+    lcdPrintln("Success.");
+    lcdDisplay();
+    OFF(EN_1V8);
 };
 
 
 void full_msc(){
-	MSCenable();
-	lcdPrintln("FLASHMSC enabled.");
-	lcdNl();
-	lcdNl();
-	lcdDisplay();
-	while(getInputRaw()!=BTN_ENTER){
+    MSCenable();
+    lcdPrintln("FLASHMSC enabled.");
+    lcdNl();
+    lcdNl();
+    lcdNl();
+    lcdDisplay();
+    while(getInputRaw()!=BTN_ENTER){
         uint32_t min = mscDisk_minAddressWR();
         uint32_t max = mscDisk_maxAddressWR();
         lcdMoveCrsr(0,-16);
@@ -102,10 +103,10 @@ void full_msc(){
         if(min == 0 && max == 2097151) {
             break;
         }
-	};
-	lcdPrintln("FLASHMSC disabled");
-	lcdDisplay();
-	MSCdisable();
+    };
+    lcdPrintln("FLASHMSC disabled");
+    lcdDisplay();
+    MSCdisable();
 };
 
 int main(void) {
@@ -132,10 +133,10 @@ int main(void) {
     cpu_clock_set(50);
     full_msc();
     while(1) {
-	    delayNop(2000000);
-	    ON(LED4);
-	    delayNop(2000000);
-	    OFF(LED4);
+        delayNop(2000000);
+        ON(LED4);
+        delayNop(2000000);
+        OFF(LED4);
     }
     return 0;
 }
