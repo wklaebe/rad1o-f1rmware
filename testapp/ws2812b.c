@@ -4,6 +4,7 @@
 #include <r0ketlib/itoa.h>
 #include <rad1olib/pins.h>
 
+#include <rad1olib/colorspace.h>
 #include <rad1olib/light_ws2812_cortex.h>
 #include <rad1olib/setup.h>
 #include <r0ketlib/display.h>

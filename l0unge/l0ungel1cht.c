@@ -28,6 +28,7 @@
 #include <r0ketlib/select.h>
 #include <r0ketlib/idle.h>
 #include <r0ketlib/config.h>
+#include <r0ketlib/render.h>
 
 #include <rad1olib/light_ws2812_cortex.h>
 #include <rad1olib/pins.h>

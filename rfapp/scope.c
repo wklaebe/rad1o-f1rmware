@@ -25,9 +25,11 @@
 #include <rad1olib/systick.h>
 
 #include <portalib/portapack.h>
+#include <portalib/specan.h>
 #include <common/hackrf_core.h>
 #include <common/rf_path.h>
 #include <common/sgpio.h>
+#include <common/tuning.h>
 #include <libopencm3/lpc43xx/dac.h>
 
 #include <portalib/complex.h>
