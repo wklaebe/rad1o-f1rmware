@@ -24,11 +24,12 @@
 
 #include <string.h>
 
+static int sys_tick_handler_ctr=0;
+
 void sys_tick_handler(void){
     incTimer();
-    static int ctr=0;
-    if (++ctr%50==1)
-	TOGGLE(LED2);
+    if (++sys_tick_handler_ctr%50==1)
+        TOGGLE(LED2);
 };
 
 const unsigned char default_xsvf[] = {
@@ -94,11 +95,13 @@ void full_msc(){
     while(getInputRaw()!=BTN_ENTER){
         uint32_t min = mscDisk_minAddressWR();
         uint32_t max = mscDisk_maxAddressWR();
-        lcdMoveCrsr(0,-16);
+        lcdMoveCrsr(0,-24);
         lcdPrint("MIN:");
         lcdPrintln(IntToStr(min,8,F_SSPACE));
         lcdPrint("MAX:");
         lcdPrintln(IntToStr(max,8,F_SSPACE));
+        lcdPrint("ctr:");
+        lcdPrintln(IntToStr(sys_tick_handler_ctr,8,F_SSPACE));
         lcdDisplay();
         if(min == 0 && max == 2097151) {
             break;
